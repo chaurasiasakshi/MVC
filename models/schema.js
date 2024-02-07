@@ -12,9 +12,15 @@ const UrlSchema = new mongoose.Schema({
     RedirectURL:{
         type:String,
         required:true,
-    }
+    },
+    VisitedHistory:[{
+        timestamp:{
+            type:Number
+        }
+    }],
 
-});
+
+},{timestamps:true});
 
 //Model
 
