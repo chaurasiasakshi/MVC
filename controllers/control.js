@@ -2,6 +2,22 @@ const URL = require("../models/schema");
 const shortid = require("shortid")
 //Controllers
 
+// ---get all user in the frontend---
+
+const api = async(req,res)=>{
+    const data = await URL.find({})
+    res.json(data)
+}
+
+const allusers = async(req,res)=>{
+    const all = await URL.find({});
+    res.render("home",{
+        urls:all
+    })
+}
+
+// ---post or generate a short url---
+
 const GeneratenewshortURL = async (req, res) => {
     const body = req.body;
     const ShortId = shortid()
@@ -10,6 +26,7 @@ const GeneratenewshortURL = async (req, res) => {
         RedirectURL: body.url,
         VisitedHistory: [],
     })
+    res.redirect("/url")
 }
 
 const redirecttoOriginalPage = ("/:shortid", async (req, res) => {
@@ -22,11 +39,12 @@ const redirecttoOriginalPage = ("/:shortid", async (req, res) => {
         }
 
     })
-    res.redirect(entry.RedirectURL)
+    const address = entry.RedirectURL;
+    res.redirect(address)
 })
 
 
-const Analytics = ("/:shortid",async(req,res)=>{
+const Analytics = ("analytics/:shortid",async(req,res)=>{
     const ShortID= req.params.shortid;
     const result = await URL.findOne({ShortID});
     res.json({Totalclick:result.VisitedHistory.length,
@@ -35,6 +53,4 @@ const Analytics = ("/:shortid",async(req,res)=>{
 
 //exporting
 
-module.exports = { redirecttoOriginalPage, GeneratenewshortURL ,Analytics};
-
-// module.exports= urlrouter;
+module.exports = { redirecttoOriginalPage, GeneratenewshortURL ,Analytics,allusers,api};
