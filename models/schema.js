@@ -1,7 +1,5 @@
 const { default: mongoose } = require("mongoose");
-
 require("./connection");
-
 //Schema
 const UrlSchema = new mongoose.Schema({
     ShortID:{
@@ -18,12 +16,9 @@ const UrlSchema = new mongoose.Schema({
             type:Number
         }
     }],
-
-
 },{timestamps:true});
 
 //Model
-
 const URL = mongoose.model("TableforShortURLGen",UrlSchema);
 
 //Exporting 
